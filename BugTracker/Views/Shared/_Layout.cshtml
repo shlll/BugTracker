@@ -52,10 +52,10 @@
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading">
-                                            <strong>John Smith</strong>
+                                            <strong>Mike Shen</strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        <p>Mike Shen</p>
                                     </div>
                                 </div>
                             </a>
@@ -68,10 +68,10 @@
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading">
-                                            <strong>John Smith</strong>
+                                            <strong>Mike Shen</strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        <p>Mike Shen</p>
                                     </div>
                                 </div>
                             </a>
@@ -84,10 +84,10 @@
                                     </span>
                                     <div class="media-body">
                                         <h5 class="media-heading">
-                                            <strong>John Smith</strong>
+                                            <strong>Mike Shen</strong>
                                         </h5>
                                         <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                        <p>Mike Shen</p>
                                     </div>
                                 </div>
                             </a>
@@ -138,7 +138,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="http://localhost:54352/Home/Index"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -147,50 +147,57 @@
             <div class="sidebar-user"style="display:flex;">
                 <div class="sidebar-user-picture" style="width:50px;height:50px;color:lightgreen;">
                     
-                        <img class="img-responsive" src="https://images.tcdn.com.br/img/img_prod/604201/c_c_sharp_1150_1_20180325172358.png" /><p>Mike Shen</p>
-                    
+                        <img class="img-responsive" src="https://images.tcdn.com.br/img/img_prod/604201/c_c_sharp_1150_1_20180325172358.png" />
                 </div>
             </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav side-nav">
+            <div class="collapse navbar-collapse navbar-ex1-collapse"style="display:block;">
+                <ul class="nav navbar-nav side-nav" >
                     <li class="active">
-                        <button style="background-color:blue;color:yellow">Log In</button>
-                        @*<a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>*@
+                        <form action="http://localhost:54352/Account/Login">
+                            <button style="background-color:blue;color:yellow">Log In</button>
+                        </form>
                     </li>
-                    <li>
-                        <button style="background-color:blue;color:yellow">Register</button>
-                        @*<a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>*@
+                    @*<a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>*@
+
+                    <li class="active">
+                        <form action="http://localhost:54352/Account/Register">
+                            <button style="background-color:blue;color:yellow">Register</button>
+                        </form>
                     </li>
-                    @*<li>
-                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
+                    <li class="active">
+                        <form action="http://localhost:54352/ApplicationUsers/">
+                            <button style="background-color:yellowgreen;color:blueviolet">Admin(Change Roles)</button>
+                        </form>
                     </li>
-                    <li>
-                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+                    <li class="active">
+                        <form action="http://localhost:54352/Projects">
+                            <button style="background-color:yellow;color:blue">Projects</button>
+                        </form>
                     </li>
-                    <li>
-                        <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                    </li>
-                    <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                    </li>*@
-                    @*<li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>
-                    <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
-                    </li>*@
                 </ul>
+                    @*<a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>*@
+
+                    @*<li>
+            <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
+        </li>
+        <li>
+            <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+        </li>
+        <li>
+            <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+        </li>
+        <li>
+            <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+        </li>*@
+
+
+                    @*<li>
+            <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+        </li>
+        <li>
+            <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+        </li>*@
+                
             </div>
             <!-- /.navbar-collapse -->
         </nav>

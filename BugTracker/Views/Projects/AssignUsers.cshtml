@@ -3,25 +3,25 @@
     ViewBag.Title = "AssignUsers";
 }
 
-<h2>AssignUsers</h2>
+<h2 style="color:red;text-align:center;font-style:oblique" >AssignUsers</h2>
 
 <div id="page-wrapper">
     <div class="container-fluid">
         <!-- Page Heading -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">
-                    Blank Page
-                    <small>Subheading</small>
+                <h1 class="page-header" style="color:greenyellow;text-align:center;font-style:oblique">
+                    Project
+                    <small style="color:greenyellow;text-align:center;font-style:oblique">Change Project</small>
                 </h1>
-                <ol class="breadcrumb">
-                    <li>
-                        <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
-                    </li>
-                    <li class="active">
-                        <i class="fa fa-file"></i> Blank Page
-                    </li>
-                </ol>
+                @*<ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            <i class="fa fa-file"></i> Blank Page
+                        </li>
+                    </ol>*@
             </div>
         </div>
         <div class="row">
@@ -29,15 +29,20 @@
                 @using (Html.BeginForm())
                 {
                     @Html.HiddenFor(p => p.Id)
-               
-                    
+
+
                     @Html.ListBoxFor(p => p.SelectedUsers, Model.UserList)
-                    <button type="submit">Please Change!</button>
+                    <button type="submit" style="background-color:blue;color:yellow">Please Change!</button>
                 }
             </div>
         </div>
         <!-- /.row -->
     </div>
+    <style>
+        body {
+            background-color: lightgreen;
+        }
+    </style>
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
