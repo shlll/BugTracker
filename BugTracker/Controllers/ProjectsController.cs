@@ -7,7 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BugTracker.Models;
-
 using BugTracker.Models.Classes;
 
 namespace BugTracker.Controllers

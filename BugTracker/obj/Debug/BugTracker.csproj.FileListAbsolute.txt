@@ -113,8 +113,8 @@ C:\Users\SD17\Desktop\BugTracker\BugTracker\bin\Microsoft.AI.DependencyCollector
 C:\Users\SD17\Desktop\BugTracker\BugTracker\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\SD17\Desktop\BugTracker\BugTracker\bin\Microsoft.AI.Web.xml
 C:\Users\SD17\Desktop\BugTracker\BugTracker\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\SD17\Desktop\BugTracker\BugTracker\obj\Debug\BugTracker.csprojAssemblyReference.cache
 C:\Users\SD17\Desktop\BugTracker\BugTracker\obj\Debug\BugTracker.csproj.CoreCompileInputs.cache
 C:\Users\SD17\Desktop\BugTracker\BugTracker\obj\Debug\BugTracker.csproj.CopyComplete
 C:\Users\SD17\Desktop\BugTracker\BugTracker\obj\Debug\BugTracker.dll
 C:\Users\SD17\Desktop\BugTracker\BugTracker\obj\Debug\BugTracker.pdb
+C:\Users\SD17\Desktop\BugTracker\BugTracker\obj\Debug\BugTracker.csprojAssemblyReference.cache

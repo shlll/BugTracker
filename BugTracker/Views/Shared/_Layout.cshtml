@@ -24,6 +24,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet"/>
 </head>
 <body>
     <div id="wrapper">
@@ -138,20 +139,24 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="http://localhost:54352/Home/Index"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                            {
+                                @Html.AntiForgeryToken()
+                            }
+                            <a href="javascript:document.getElementById('logoutForm').submit()">Log out</a>
                         </li>
                     </ul>
                 </li>
             </ul>
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
-            <div class="sidebar-user"style="display:flex;">
+            <div class="sidebar-user" style="display:flex;">
                 <div class="sidebar-user-picture" style="width:50px;height:50px;color:lightgreen;">
-                    
-                        <img class="img-responsive" src="https://images.tcdn.com.br/img/img_prod/604201/c_c_sharp_1150_1_20180325172358.png" />
+
+                    <img class="img-responsive" src="https://images.tcdn.com.br/img/img_prod/604201/c_c_sharp_1150_1_20180325172358.png" />
                 </div>
             </div>
-            <div class="collapse navbar-collapse navbar-ex1-collapse"style="display:block;">
-                <ul class="nav navbar-nav side-nav" >
+            <div class="collapse navbar-collapse navbar-ex1-collapse" style="display:block;">
+                <ul class="nav navbar-nav side-nav">
                     <li class="active">
                         <form action="http://localhost:54352/Account/Login">
                             <button style="background-color:blue;color:yellow">Log In</button>
@@ -175,36 +180,35 @@
                         </form>
                     </li>
                 </ul>
-                    @*<a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>*@
+                @*<a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Charts</a>*@
 
-                    @*<li>
-            <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
-        </li>
-        <li>
-            <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
-        </li>
-        <li>
-            <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-        </li>
-        <li>
-            <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-        </li>*@
+                @*<li>
+                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Tables</a>
+                    </li>
+                    <li>
+                        <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Forms</a>
+                    </li>
+                    <li>
+                        <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
+                    </li>
+                    <li>
+                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+                    </li>*@
 
 
-                    @*<li>
-            <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-        </li>
-        <li>
-            <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
-        </li>*@
-                
+                @*<li>
+                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+                    </li>
+                    <li>
+                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
+                    </li>*@
+
             </div>
             <!-- /.navbar-collapse -->
         </nav>
         @RenderBody()
     </div>
     <!-- /#wrapper -->
-    @RenderSection("Scripts",required:false)
     <!-- jQuery -->
 
     <script src="~/Scripts/jquery.js"></script>
@@ -212,11 +216,16 @@
 
     <script src="~/Scripts/bootstrap.min.js"></script>
     <!-- Morris Charts JavaScript -->
-    
+
     <script src="~/Scripts/plugins/morris/raphael.min.js"></script>
-    
+
     <script src="~/Scripts/plugins/morris/morris.min.js"></script>
- 
+
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    @RenderSection("Scripts", required: false)
     <script src="~/Scripts/plugins/morris/morris-data.js"></script>
+
+
+
 </body>
 </html>

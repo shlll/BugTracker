@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,12 +17,17 @@ namespace BugTracker.Models
         public ApplicationUser()
         {
             Projects = new HashSet<Project>();
+            UsersCreatedTheTickets = new HashSet<TicketModel>();
+            UsersAssignedTheTickets = new HashSet<TicketModel>();
         }
         public string FinalName { get; set; }
 
 
         public ICollection<Project> Projects { get; set; }
-
+        [InverseProperty("Creating")]
+        public ICollection<TicketModel> UsersCreatedTheTickets { get; set; }
+        [InverseProperty("Assigned")]
+        public ICollection<TicketModel> UsersAssignedTheTickets { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             
@@ -46,5 +52,12 @@ namespace BugTracker.Models
 
         public System.Data.Entity.DbSet<BugTracker.Models.Classes.Project> Projects { get; set; }
 
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketModel> TicketModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.PriorityOfTicket> PriorityOfTickets { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.StatusOfTicket> StatusOfTickets { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TypeOfTicket> TypeOfTickets { get; set; }
     }
 }

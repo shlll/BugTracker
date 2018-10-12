@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BugTracker.Models;
 
 namespace BugTracker.Controllers
 {
@@ -11,6 +12,9 @@ namespace BugTracker.Controllers
     {
         public ActionResult Index()
         {
+            var user = new ApplicationUser();
+            user.UsersCreatedTheTickets.ToList();
+            user.UsersAssignedTheTickets.ToList();
             return View();
         }
 
