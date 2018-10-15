@@ -25,13 +25,13 @@ namespace BugTracker.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
             }
-            if (!context.Roles.Any(r => r.Name == "Submitters"))
+            if (!context.Roles.Any(r => r.Name == "Submitter"))
             {
-                roleManager.Create(new IdentityRole { Name = "Submitters" });
+                roleManager.Create(new IdentityRole { Name = "Submitter" });
             }
-            if (!context.Roles.Any(r => r.Name == "Developers"))
+            if (!context.Roles.Any(r => r.Name == "Developer"))
             {
-                roleManager.Create(new IdentityRole { Name = "Developers" });
+                roleManager.Create(new IdentityRole { Name = "Developer" });
             }
             if (!context.Roles.Any(r => r.Name == "Project Manager"))
             {
@@ -47,96 +47,73 @@ namespace BugTracker.Migrations
                 adminUser.Email = "admin@gmail.com";
                 adminUser.Name = "Admin";
                 adminUser.FinalName = "Admin";
-                userManager.Create(adminUser, "Password-1");
+                userManager.Create(adminUser, "456!Shl");
             }
             else
             {
                 adminUser = context.Users.Where(p => p.UserName == "admin@gmail.com").FirstOrDefault();
             }
-             if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
-            {
-                adminUser = new ApplicationUser();
-                adminUser.UserName = "shll20120727@163.com";
-                adminUser.Email = "shll20120727@163.com";
-                adminUser.Name = "Submitters";
-                adminUser.FinalName = "Submitters";
-                userManager.Create(adminUser, "Password-3");
-            }
-            else
-            {
-                adminUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
-            }
-            if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
-            {
-                adminUser = new ApplicationUser();
-                adminUser.UserName = "shll20120727@163.com";
-                adminUser.Email = "shll20120727@163.com";
-                adminUser.Name = "Developers";
-                adminUser.FinalName = "Developers";
-                userManager.Create(adminUser, "Password-4");
-            }
-            else
-            {
-                adminUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
-            }
-            if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
-            {
-                adminUser = new ApplicationUser();
-                adminUser.UserName = "shll20120727@163.com";
-                adminUser.Email = "shll20120727@163.com";
-                adminUser.Name = "Project Manager";
-                adminUser.FinalName = "Project Manager";
-                userManager.Create(adminUser, "Password-5");
-            }
-            else
-            {
-                adminUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
-            }
-
-
             if (!userManager.IsInRole(adminUser.Id, "Admin"))
             {
                 userManager.AddToRole(adminUser.Id, "Admin");
             }
-            if (!userManager.IsInRole(adminUser.Id, "Submitters"))
+            ApplicationUser submitUser;
+             if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
             {
-                userManager.AddToRole(adminUser.Id, "Submitters");
+                submitUser = new ApplicationUser();
+                submitUser.UserName = "shll20120727@163.com";
+                submitUser.Email = "shll20120727@163.com";
+                submitUser.Name = "Submitter";
+                submitUser.FinalName = "Submitter";
+                userManager.Create(submitUser, "123!Shl");
             }
-            if (!userManager.IsInRole(adminUser.Id, "Developers"))
+            else
             {
-                userManager.AddToRole(adminUser.Id, "Developers");
+                submitUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
             }
-            if (!userManager.IsInRole(adminUser.Id, "Project Manager"))
+            if (!userManager.IsInRole(submitUser.Id, "Submitter"))
             {
-                userManager.AddToRole(adminUser.Id, "Project Manager");
+                userManager.AddToRole(submitUser.Id, "Submitter");
             }
-
-
-            if (!context.PriorityOfTickets.Any(p => p.Name == "shll20120727@163.com"))
+            ApplicationUser developUser;
+            if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
             {
-                adminUser = new ApplicationUser();
-                adminUser.Id = "shll20120727@163.com";
-                adminUser.Name = "shll20120727@163.com";
-                userManager.Create(adminUser, "Password-5");
+                developUser = new ApplicationUser();
+                developUser.UserName = "shll20120727@163.com";
+                developUser.Email = "shll20120727@163.com";
+                developUser.Name = "Developer";
+                developUser.FinalName = "Developer";
+                userManager.Create(developUser, "123!Shl");
             }
-            if (!context.StatusOfTickets.Any(p => p.Name == "shll20120727@163.com"))
+            else
             {
-                adminUser = new ApplicationUser();
-                adminUser.Id = "shll20120727@163.com";
-                adminUser.Name = "shll20120727@163.com";
-                userManager.Create(adminUser, "Password-5");
+                developUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
             }
-            if (!context.TypeOfTickets.Any(p => p.Name == "shll20120727@163.com"))
+            if (!userManager.IsInRole(developUser.Id, "Developer"))
             {
-                adminUser = new ApplicationUser();
-                adminUser.Id = "shll20120727@163.com";
-                adminUser.Name = "shll20120727@163.com";
-                userManager.Create(adminUser, "Password-5");
+                userManager.AddToRole(developUser.Id, "Developer");
             }
-
-
-
+            ApplicationUser projManagerUser;
+            if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
+            {
+                projManagerUser = new ApplicationUser();
+                projManagerUser.UserName = "shll20120727@163.com";
+                projManagerUser.Email = "shll20120727@163.com";
+                projManagerUser.Name = "Project Manager";
+                projManagerUser.FinalName = "Project Manager";
+                userManager.Create(projManagerUser, "123!Shl");
+            }
+            else
+            {
+                projManagerUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
+            }
+            if (!userManager.IsInRole(projManagerUser.Id, "Project Manager"))
+            {
+                userManager.AddToRole(projManagerUser.Id, "Project Manager");
+            }
+            
             context.PriorityOfTickets.AddOrUpdate(
+                new PriorityOfTicket() { Id = 1, Name = "Very Low" },
                 new PriorityOfTicket() { Id = 2, Name = "Low" },
                 new PriorityOfTicket() { Id = 3, Name = "Medium" },
                 new PriorityOfTicket() { Id = 4, Name = "Urgent" }
@@ -159,6 +136,7 @@ namespace BugTracker.Migrations
           );
             context.SaveChanges();
 
+          
 
 
 

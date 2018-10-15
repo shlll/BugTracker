@@ -21,10 +21,11 @@ namespace BugTracker.Models
         public virtual TypeOfTicket TicketType { get; set; } 
         public int ProjectId { get; set; }
         public virtual Project Project { get; set; }
-        public int CreatingId { get; set; }
+        public string CreatingId { get; set; }
         public virtual ApplicationUser Creating { get; set; }
-        public int AssignedId { get; set; }
+        public string AssignedId { get; set; }
         public virtual ApplicationUser Assigned { get; set; }
+        public virtual ApplicationUser Users { get; set; }
 
 
     }

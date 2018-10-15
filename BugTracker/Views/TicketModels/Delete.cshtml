@@ -14,14 +14,14 @@
                     Blank Page
                     <small>Subheading</small>
                 </h1>
-                <ol class="breadcrumb">
+                @*<ol class="breadcrumb">
                     <li>
                         <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
                     </li>
                     <li class="active">
                         <i class="fa fa-file"></i> Blank Page
                     </li>
-                </ol>
+                </ol>*@
             </div>
         </div>
         <div class="row">
@@ -34,7 +34,8 @@
                     <hr />
                     <dl class="dl-horizontal">
                         <dt>
-                            @Html.DisplayNameFor(model => model.Project.Name)
+                            @*@Html.DisplayNameFor(model => model.Project.Name)*@
+                            ProjectId
                         </dt>
 
                         <dd>
@@ -49,13 +50,13 @@
                             @Html.DisplayFor(model => model.Description)
                         </dd>
 
-                        @*<dt>
+                        <dt>
                             @Html.DisplayNameFor(model => model.Name)
                         </dt>
 
                         <dd>
                             @Html.DisplayFor(model => model.Name)
-                        </dd>*@
+                        </dd>
 
                         <dt>
                             @Html.DisplayNameFor(model => model.Created)
@@ -74,7 +75,8 @@
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => model.TicketPriority.Name)
+                            @*@Html.DisplayNameFor(model => model.TicketPriority.Name)*@
+                            TicketPriorityId
                         </dt>
 
                         <dd>
@@ -82,7 +84,8 @@
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => model.TicketStatus.Name)
+                            @*@Html.DisplayNameFor(model => model.TicketStatus.Name)*@
+                            TicketStatusId
                         </dt>
 
                         <dd>
@@ -90,7 +93,8 @@
                         </dd>
 
                         <dt>
-                            @Html.DisplayNameFor(model => model.TicketType.Name)
+                            @*@Html.DisplayNameFor(model => model.TicketType.Name)*@
+                            TicketTypeId
                         </dt>
 
                         <dd>

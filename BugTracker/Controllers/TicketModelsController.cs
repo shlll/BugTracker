@@ -6,21 +6,70 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BugTracker.Helper;
 using BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BugTracker.Controllers
 {
     public class TicketModelsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: TicketModels
+        private readonly RoleHelper RoleHelper = new RoleHelper();
+        // GET: TicketModels  
         public ActionResult Index()
         {
-            var ticketModels = db.TicketModels.Include(t => t.Project);
+            var ticketModels = db.TicketModels.
+                Include(t => t.Project).
+                Include(t => t.Assigned).
+                Include(t => t.Creating).
+                Include(t => t.TicketPriority).
+                Include(t => t.TicketStatus).
+                Include(t => t.TicketType);
             return View(ticketModels.ToList());
         }
+        [Authorize(Roles = "Submitter")]
+        public ActionResult SubmitterOfTheTickets()
+        {
+            var userId = User.Identity.GetUserId();
 
+            var ticketModels = db.TicketModels.
+                Where(p => p.CreatingId == userId).
+                Include(t => t.Project).
+                Include(t => t.Assigned).
+                Include(t => t.Creating).
+                Include(t => t.TicketPriority).
+                Include(t => t.TicketStatus).
+                Include(t => t.TicketType);
+               
+            return View("Index", ticketModels.ToList());
+        }
+        [Authorize(Roles = "Developer")]
+        public ActionResult DeveloperOfTheTickets()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var ticketModels = db.TicketModels.
+                Where(p=>p.AssignedId == userId).
+                Include(t => t.Project).
+                Include(t => t.Assigned).
+                Include(t => t.Creating).
+                Include(t => t.TicketPriority).
+                Include(t => t.TicketStatus).
+                Include(t => t.TicketType);
+
+            return View("Index", ticketModels.ToList());
+        }
+        [Authorize(Roles = "Project Manager, Developer")]
+        public ActionResult TheProjManagerTicketsAndTheDeveloperTickets()
+        {
+            var userId = User.Identity.GetUserId();
+            var projectModel = db.Users.Where(p => p.Id == userId).FirstOrDefault().
+                Projects.Select(p=>p.Id).FirstOrDefault();
+            return View("Index", db.TicketModels.Where(p => p.Id == projectModel).ToList());
+        }
+        
+      
         // GET: TicketModels/Details/5
         public ActionResult Details(int? id)
         {
@@ -134,6 +183,7 @@ namespace BugTracker.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        
 
         protected override void Dispose(bool disposing)
         {
