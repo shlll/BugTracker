@@ -30,5 +30,6 @@ namespace BugTracker.Helper
         {
             return UserManager.GetRoles(id).ToList();
         }
+
     }
 }

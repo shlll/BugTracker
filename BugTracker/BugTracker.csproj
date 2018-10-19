@@ -203,6 +203,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\HtmlHelperExtensions.cs" />
+    <Compile Include="Helper\ImageUploadValidator.cs" />
     <Compile Include="Helper\RoleHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -212,7 +214,11 @@
     <Compile Include="Models\PriorityOfTicket.cs" />
     <Compile Include="Models\ProjectAssignViewModel.cs" />
     <Compile Include="Models\StatusOfTicket.cs" />
+    <Compile Include="Models\TicketAttachmentsModel.cs" />
+    <Compile Include="Models\TicketCommentsModel.cs" />
+    <Compile Include="Models\TicketHistoriesModel.cs" />
     <Compile Include="Models\TicketModel.cs" />
+    <Compile Include="Models\TicketNotificationsModel.cs" />
     <Compile Include="Models\TypeOfTicket.cs" />
     <Compile Include="Models\UserRoleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -266,6 +272,11 @@
     <Content Include="Scripts\plugins\morris\morris.js" />
     <Content Include="Scripts\plugins\morris\morris.min.js" />
     <Content Include="Scripts\plugins\morris\raphael.min.js" />
+    <Content Include="Uploads\313d73fa42f04a46213abc6267b4d074.png" />
+    <Content Include="Uploads\AdLogo.png" />
+    <Content Include="Uploads\Chrome-logo-2011-03-16.jpg" />
+    <Content Include="Uploads\images.jpeg" />
+    <Content Include="Uploads\images.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

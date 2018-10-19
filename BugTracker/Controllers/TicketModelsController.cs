@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -36,12 +37,12 @@ namespace BugTracker.Controllers
             var ticketModels = db.TicketModels.
                 Where(p => p.CreatingId == userId).
                 Include(t => t.Project).
+                Include(t => t.TicketComments).
                 Include(t => t.Assigned).
                 Include(t => t.Creating).
                 Include(t => t.TicketPriority).
                 Include(t => t.TicketStatus).
                 Include(t => t.TicketType);
-               
             return View("Index", ticketModels.ToList());
         }
         [Authorize(Roles = "Developer")]
@@ -52,6 +53,7 @@ namespace BugTracker.Controllers
             var ticketModels = db.TicketModels.
                 Where(p=>p.AssignedId == userId).
                 Include(t => t.Project).
+                Include(t => t.TicketComments).
                 Include(t => t.Assigned).
                 Include(t => t.Creating).
                 Include(t => t.TicketPriority).
@@ -64,7 +66,7 @@ namespace BugTracker.Controllers
         public ActionResult TheProjManagerTicketsAndTheDeveloperTickets()
         {
             var userId = User.Identity.GetUserId();
-            var projectModel = db.Users.Where(p => p.Id == userId).FirstOrDefault().
+            var projectModel = db.Users.Where(p => p.Id == userId).Include(t => t.TicketComments).FirstOrDefault().
                 Projects.Select(p=>p.Id).FirstOrDefault();
             return View("Index", db.TicketModels.Where(p => p.Id == projectModel).ToList());
         }
@@ -88,6 +90,7 @@ namespace BugTracker.Controllers
         // GET: TicketModels/Create
         public ActionResult Create()
         {
+            ViewBag.AssignedId = new SelectList(db.Users, "Id", "Name");
             ViewBag.CreatingId = new SelectList(db.Users, "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.PriorityOfTickets, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.StatusOfTickets, "Id", "Name");
@@ -105,10 +108,15 @@ namespace BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = User.Identity.GetUserId();
+                ticketModel.CreatingId = userId;
+                ticketModel.Created = DateTimeOffset.Now;
+                ticketModel.TicketStatusId = 2;
                 db.TicketModels.Add(ticketModel);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.AssignedId = new SelectList(db.Users, "Id", "Name", ticketModel.AssignedId);
             ViewBag.CreatingId = new SelectList(db.Users, "Id", "Name",ticketModel.CreatingId);
             ViewBag.TicketPriorityId = new SelectList(db.PriorityOfTickets, "Id", "Name", ticketModel.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.StatusOfTickets, "Id", "Name", ticketModel.TicketStatusId);
@@ -116,7 +124,57 @@ namespace BugTracker.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticketModel.ProjectId);
             return View(ticketModel);
         }
-
+        [HttpPost]
+        public ActionResult CreateComment(int id, string body)
+        {
+            var ticketModels = db.TicketModels.Where(p => p.Id == id).FirstOrDefault();
+            if(ticketModels == null)
+            {
+                return HttpNotFound();
+            }
+            if (string.IsNullOrWhiteSpace(body))
+            {
+                TempData["ErrorMessage"] = "Comment is required";
+                return RedirectToAction("Details", new { id });
+            }
+            var comments = new TicketCommentsModel();
+            comments.UserId = User.Identity.GetUserId();
+            comments.Created = DateTime.Now;
+            comments.TicketId = ticketModels.Id;
+            comments.Comment = body;
+            db.TicketCommentsModels.Add(comments);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id });
+        }
+        [HttpPost]
+        public ActionResult CreateAttachments(int id, HttpPostedFileBase img, string content)
+        {
+            var attachments = new TicketAttachmentsModel();
+            var attachmentsModel = db.TicketModels.Where(p => p.Id == id).FirstOrDefault();
+            if (ModelState.IsValid)
+            {
+            if(attachmentsModel == null)
+            {
+                return HttpNotFound();
+            }
+            
+            
+            if (ImageUploadValidator.IsWebFriendlyImage(img))
+            {
+                img.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(img.FileName)));
+                attachments.FilePath = "/Uploads" + Path.GetFileName(img.FileName);
+            }
+                attachments.UserId = User.Identity.GetUserId();
+                attachments.TicketId = attachmentsModel.Id;
+                attachments.Created = DateTime.Now;
+                attachments.Description = content;
+            
+            db.TicketAttachmentsModels.Add(attachments);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id });
+            }
+            return View(attachments);
+        }
         // GET: TicketModels/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -146,7 +204,33 @@ namespace BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(ticketModel).State = EntityState.Modified;
+                var dateChanged = DateTimeOffset.Now;
+                var changes = new List<TicketHistoriesModel>();
+                var ticketModels = db.TicketModels.Where(p => p.Id == ticketModel.Id).FirstOrDefault();
+                
+                ticketModels.Updated = dateChanged;
+                ticketModels.Name = ticketModel.Name;
+
+                ticketModels.Description = ticketModel.Description;
+                var originalValue = db.Entry(ticketModels).OriginalValues;
+                var currentValue = db.Entry(ticketModels).CurrentValues;
+                foreach(var property in originalValue.PropertyNames)
+                {
+                    var originalVal = originalValue[property]?.ToString(); 
+                    var currentVal = currentValue[property]?.ToString();
+                    if(originalVal != currentVal)
+                    {
+                        var history = new TicketHistoriesModel();
+                        history.Changed = dateChanged;
+                        history.NewValue = GetTheValuesFromTheKey(property,currentVal);
+                        history.OldValue = GetTheValuesFromTheKey(property,originalVal);
+                        history.Property = property;
+                        history.TicketId = ticketModel.Id;
+                        history.UserId = User.Identity.GetUserId();
+                        changes.Add(history);
+                    }
+                }
+                db.TicketHistoriesModels.AddRange(changes);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -156,6 +240,22 @@ namespace BugTracker.Controllers
             ViewBag.TicketTypeId = new SelectList(db.TypeOfTickets, "Id", "Name", ticketModel.TicketTypeId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticketModel.ProjectId);
             return View(ticketModel);
+        }
+        private string GetTheValuesFromTheKey(string propName, string key)
+        {
+            if(propName == "TicketTypeId")
+            {
+                return db.TypeOfTickets.Find(Convert.ToInt32(key)).Name;
+            }
+            if(propName == "TicketStatusId")
+            {
+                return db.StatusOfTickets.Find(Convert.ToInt32(key)).Name;
+            }
+            if (propName == "TicketPriorityId")
+            {
+                return db.PriorityOfTickets.Find(Convert.ToInt32(key)).Name;
+            }
+            return key;
         }
 
         // GET: TicketModels/Delete/5

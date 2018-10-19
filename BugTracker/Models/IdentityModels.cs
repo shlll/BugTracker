@@ -19,6 +19,10 @@ namespace BugTracker.Models
             Projects = new HashSet<Project>();
             UsersCreatedTheTickets = new HashSet<TicketModel>();
             UsersAssignedTheTickets = new HashSet<TicketModel>();
+            TicketAttachments = new HashSet<TicketAttachmentsModel>();
+            TicketComments = new HashSet<TicketCommentsModel>();
+            TicketHistories = new HashSet<TicketHistoriesModel>();
+            TicketNotifications = new HashSet<TicketNotificationsModel>();
         }
         public string FinalName { get; set; }
 
@@ -28,6 +32,15 @@ namespace BugTracker.Models
         public ICollection<TicketModel> UsersCreatedTheTickets { get; set; }
         [InverseProperty("Assigned")]
         public ICollection<TicketModel> UsersAssignedTheTickets { get; set; }
+
+        public virtual ICollection<TicketAttachmentsModel> TicketAttachments { get; set; }
+
+        public virtual ICollection<TicketCommentsModel> TicketComments { get; set; }
+
+        public virtual ICollection<TicketHistoriesModel> TicketHistories { get; set; }
+
+        public virtual ICollection<TicketNotificationsModel> TicketNotifications { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             
@@ -59,5 +72,14 @@ namespace BugTracker.Models
         public System.Data.Entity.DbSet<BugTracker.Models.StatusOfTicket> StatusOfTickets { get; set; }
 
         public System.Data.Entity.DbSet<BugTracker.Models.TypeOfTicket> TypeOfTickets { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketCommentsModel> TicketCommentsModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketAttachmentsModel> TicketAttachmentsModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketHistoriesModel> TicketHistoriesModels { get; set; }
+
+        public System.Data.Entity.DbSet<BugTracker.Models.TicketNotificationsModel> TicketNotificationsModels { get; set; }
+
     }
 }

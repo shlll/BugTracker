@@ -13,11 +13,13 @@ namespace BugTracker.Controllers
         public ActionResult Index()
         {
             var user = new ApplicationUser();
+            var db = new ApplicationDbContext();
+            db.TicketModels.Where(p => p.CreatingId == "1");
             user.UsersCreatedTheTickets.ToList();
             user.UsersAssignedTheTickets.ToList();
             return View();
         }
-
+        
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

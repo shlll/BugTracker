@@ -16,7 +16,6 @@ namespace BugTracker.Controllers
     [Authorize]
     public class ApplicationUsersController : Controller
     {
-
         // GET: ApplicationUsers
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -42,14 +41,14 @@ namespace BugTracker.Controllers
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
             var user = userManager.FindById(model.Id);
-            var userRoles = userManager.GetRoles(model.Id);
+            var userRoles = userManager.GetRoles(user.Id);
             foreach (var role in userRoles)
             {
-                userManager.RemoveFromRole(model.Id, role);
+                userManager.RemoveFromRole(user.Id, role);
             }
             foreach (var role in model.SelectedRoles)
             {
-                userManager.AddToRole(model.Id, role);
+                userManager.AddToRole(user.Id, role);
             }
             return RedirectToAction("Index");
         }
