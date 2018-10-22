@@ -157,12 +157,10 @@ namespace BugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            
-            
             if (ImageUploadValidator.IsWebFriendlyImage(img))
             {
                 img.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(img.FileName)));
-                attachments.FilePath = "/Uploads" + Path.GetFileName(img.FileName);
+                attachments.FilePath = "/Uploads/ " + Path.GetFileName(img.FileName);
             }
                 attachments.UserId = User.Identity.GetUserId();
                 attachments.TicketId = attachmentsModel.Id;
@@ -175,6 +173,12 @@ namespace BugTracker.Controllers
             }
             return View(attachments);
         }
+        //public ActionResult CreateNotification(int id)
+        //{
+        //    var notifications = new TicketNotificationsModel();
+        //    var notificationModel = db.TicketModels.Where().
+
+        //}
         // GET: TicketModels/Edit/5
         public ActionResult Edit(int? id)
         {

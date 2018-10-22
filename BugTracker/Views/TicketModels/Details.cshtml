@@ -14,8 +14,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                    Blank Page
-                    <small>Subheading</small>
+                   Details of the ticket
+                    <small>Details</small>
                 </h1>
                 @*<ol class="breadcrumb">
                         <li>
@@ -107,12 +107,12 @@
                         </dd>
 
                         @*<dt>
-                                @Html.DisplayNameFor(model => model.CreatingId)
-                            </dt>*@
+            @Html.DisplayNameFor(model => model.CreatingId)
+        </dt>*@
 
                         @*<dd>
-                                @Html.DisplayFor(model => model.CreatingId)
-                            </dd>*@
+            @Html.DisplayFor(model => model.CreatingId)
+        </dd>*@
 
                     </dl>
                 </div>
@@ -124,70 +124,72 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
-<div style="color:blueviolet">
-    Comments:
-    @foreach (var comment in Model.TicketComments)
-    {
-        <p>
-            @comment.Comment - by @comment.User.FinalName - @comment.Created.ToString("dd/MM/yyyy HH:mm")
-        </p>
-
-    }
-</div>
-@if (User.Identity.IsAuthenticated)
-{
+<div class="container" style="display:flex">
     <div style="color:blueviolet">
-        Please submit your comment!
-    </div>
-    <div>
-        @using (Html.BeginForm("CreateComment", "TicketModels", new { id = Model.Id }, FormMethod.Post))
+        Comments:
+        @foreach (var comment in Model.TicketComments)
         {
-            <input type="hidden" name="comments" />
-            <textarea name="body">
-            </textarea>
-            if (ViewBag.ErrorMessage != null)
-            {
-                <span>@ViewBag.ErrorMessage</span>
-            }
-            <input type="submit" value="Submit" />
-        }
+            <p>
+                @comment.Comment - by @comment.User.FinalName - @comment.Created.ToString("dd/MM/yyyy HH:mm")
+            </p>
 
-    </div>
-}
-<div style="color:blue">
-    Attachments:
-    @foreach (var attachment in Model.TicketAttachments)
-    {
-        <p>
-            @attachment.User.FinalName - @attachment.Description - @attachment.Created.ToString("dd/MM/yyyy HH:mm");
-        </p>
-        <img src="@attachment.FilePath" />
-    }
-</div>
-@if (User.Identity.IsAuthenticated)
-{
-<div>
-    
-    @using (Html.BeginForm("CreateAttachments", "TicketModels", new { id = Model.Id }, FormMethod.Post, new { content = Model.Description, enctype = "Multipart/form-data" }))
-    {
-        
-        <input name="img" type="file" class="form-control" id="fileUpload" />
-        <div style="color:blue">
-        Please input your topic!!
-        </div>
-        <textarea name="content"></textarea>
-        if (ViewBag.ErrorMessage != null)
-        {
-            <span>@ViewBag.ErrorMessage</span>
         }
-        <input type="submit" value="Submit" />
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div style="color:blueviolet">
+            Please submit your comment!
+        </div>
+        <div>
+            @using (Html.BeginForm("CreateComment", "TicketModels", new { id = Model.Id }, FormMethod.Post))
+            {
+                <input type="hidden" name="comments" />
+                <textarea name="body">
+            </textarea>
+                if (ViewBag.ErrorMessage != null)
+                {
+                    <span>@ViewBag.ErrorMessage</span>
+                }
+                <input type="submit" value="Submit" />
+            }
+
+        </div>
     }
+    <div style="color:blue">
+        Attachments:
+        @foreach (var attachment in Model.TicketAttachments)
+        {
+            <p>
+                @attachment.User.FinalName - @attachment.Description - @attachment.Created.ToString("dd/MM/yyyy HH:mm");
+            </p>
+            <img src="@attachment.FilePath" class="img-responsive"/>
+        }
+    </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div>
+
+            @using (Html.BeginForm("CreateAttachments", "TicketModels", new { id = Model.Id }, FormMethod.Post, new { content = Model.Description, enctype = "Multipart/form-data" }))
+            {
+
+                <input name="img" type="file" class="form-control" id="fileUpload" />
+                <div style="color:blue">
+                    Please input your subject!!
+                </div>
+                <textarea name="content"></textarea>
+                if (ViewBag.ErrorMessage != null)
+                {
+                    <span>@ViewBag.ErrorMessage</span>
+                }
+                <input type="submit" value="Submit" />
+            }
+        </div>
+    }
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 </div>
-}
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
 <style>
     body {
         background-color: white;
