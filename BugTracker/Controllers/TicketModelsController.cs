@@ -67,11 +67,11 @@ namespace BugTracker.Controllers
         {
             var userId = User.Identity.GetUserId();
             var projectModel = db.Users.Where(p => p.Id == userId).Include(t => t.TicketComments).FirstOrDefault().
-                Projects.Select(p=>p.Id).FirstOrDefault();
+                Projects.Select(p => p.Id).FirstOrDefault();
             return View("Index", db.TicketModels.Where(p => p.Id == projectModel).ToList());
         }
-        
-      
+
+
         // GET: TicketModels/Details/5
         public ActionResult Details(int? id)
         {
@@ -134,7 +134,7 @@ namespace BugTracker.Controllers
             }
             if (string.IsNullOrWhiteSpace(body))
             {
-                TempData["ErrorMessage"] = "Comment is required";
+                ViewBag.ErrorMessage = "Comment is required";
                 return RedirectToAction("Details", new { id });
             }
             var comments = new TicketCommentsModel();
@@ -160,7 +160,7 @@ namespace BugTracker.Controllers
             if (ImageUploadValidator.IsWebFriendlyImage(img))
             {
                 img.SaveAs(Path.Combine(Server.MapPath("~/Uploads/"), Path.GetFileName(img.FileName)));
-                attachments.FilePath = "/Uploads/ " + Path.GetFileName(img.FileName);
+                attachments.FilePath = "/Uploads/" + Path.GetFileName(img.FileName);
             }
                 attachments.UserId = User.Identity.GetUserId();
                 attachments.TicketId = attachmentsModel.Id;
@@ -173,6 +173,8 @@ namespace BugTracker.Controllers
             }
             return View(attachments);
         }
+        //[HttpPost]
+        //[Authorize(Roles = "Developer")]
         //public ActionResult CreateNotification(int id)
         //{
         //    var notifications = new TicketNotificationsModel();
@@ -261,6 +263,37 @@ namespace BugTracker.Controllers
             }
             return key;
         }
+        public ActionResult AssignedTickets(int id)
+        {
+            var tickets = new AssignedOfTheTicketsModel();
+            tickets.Id = id;
+            var newTicket = db.TicketModels.FirstOrDefault(p => p.Id == id);
+            var developers = db.Users.ToList();
+            tickets.TicketList = new MultiSelectList(developers, "Id", "FinalName", newTicket.Users.Select(p => p.Id).ToList());
+            return View(tickets);
+        }
+        [HttpPost]
+        [Authorize(Roles = "Developer")]
+        public ActionResult AssignedTickets(AssignedOfTheTicketsModel model)
+        {
+            var ticket = db.TicketModels.FirstOrDefault(p => p.Id == model.Id);
+            foreach (var developer in ticket.Users.ToList())
+            {
+                ticket.Users.Remove(developer);
+            }
+            if (model.SelectedTicket != null)
+            {
+                foreach (var userId in model.SelectedTicket)
+                {
+                    var user = db.Users.FirstOrDefault(p => p.Id == userId);
+                    ticket.Users.Add(user);
+                }
+            }
+
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
 
         // GET: TicketModels/Delete/5
         public ActionResult Delete(int? id)

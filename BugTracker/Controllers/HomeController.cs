@@ -26,6 +26,7 @@ namespace BugTracker.Controllers
 
             return View();
         }
+        
 
         public ActionResult Contact()
         {
@@ -33,5 +34,6 @@ namespace BugTracker.Controllers
 
             return View();
         }
+       
     }
 }

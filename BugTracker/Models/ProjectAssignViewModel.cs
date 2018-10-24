@@ -9,7 +9,6 @@ namespace BugTracker.Models
     public class ProjectAssignViewModel
     {
         public int Id { get; set; }
-        
         public MultiSelectList UserList { get; set; }
         public string[] SelectedUsers { get; set; } 
     }

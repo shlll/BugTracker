@@ -15,6 +15,7 @@ namespace BugTracker.Models.Classes
         public Project()
         {
             Users = new HashSet<ApplicationUser>();
+            Tickets = new HashSet<TicketModel>();
         }
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<TicketModel> Tickets { get; set; }
