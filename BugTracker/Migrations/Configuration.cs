@@ -40,72 +40,72 @@ namespace BugTracker.Migrations
 
 
             ApplicationUser adminUser;
-            if (!context.Users.Any(p => p.UserName == "admin@gmail.com"))
+            if (!context.Users.Any(p => p.UserName == "adminator@bugtracker.com"))
             {
                 adminUser = new ApplicationUser();
-                adminUser.UserName = "admin@gmail.com";
-                adminUser.Email = "admin@gmail.com";
+                adminUser.UserName = "adminator@bugtracker.com";
+                adminUser.Email = "aadminator@bugtracker.com";
                 adminUser.Name = "Admin";
                 adminUser.FinalName = "Admin";
-                userManager.Create(adminUser, "456!Shl");
+                userManager.Create(adminUser, "789!Shl");
             }
             else
             {
-                adminUser = context.Users.Where(p => p.UserName == "admin@gmail.com").FirstOrDefault();
+                adminUser = context.Users.Where(p => p.UserName == "adminator@bugtracker.com").FirstOrDefault();
             }
             if (!userManager.IsInRole(adminUser.Id, "Admin"))
             {
                 userManager.AddToRole(adminUser.Id, "Admin");
             }
             ApplicationUser submitUser;
-             if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
+             if (!context.Users.Any(p => p.UserName == "submitter@bugtracker.com"))
             {
                 submitUser = new ApplicationUser();
-                submitUser.UserName = "shll20120727@163.com";
-                submitUser.Email = "shll20120727@163.com";
+                submitUser.UserName = "submitter@bugtracker.com";
+                submitUser.Email = "submitter@bugtracker.com";
                 submitUser.Name = "Submitter";
                 submitUser.FinalName = "Submitter";
-                userManager.Create(submitUser, "123!Shl");
+                userManager.Create(submitUser, "567!Shl");
             }
             else
             {
-                submitUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
+                submitUser = context.Users.Where(p => p.UserName == "submitter@bugtracker.com").FirstOrDefault();
             }
             if (!userManager.IsInRole(submitUser.Id, "Submitter"))
             {
                 userManager.AddToRole(submitUser.Id, "Submitter");
             }
             ApplicationUser developUser;
-            if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
+            if (!context.Users.Any(p => p.UserName == "developer@bugtracker.com"))
             {
                 developUser = new ApplicationUser();
-                developUser.UserName = "shll20120727@163.com";
-                developUser.Email = "shll20120727@163.com";
+                developUser.UserName = "developer@bugtracker.com";
+                developUser.Email = "developer@bugtracker.com";
                 developUser.Name = "Developer";
                 developUser.FinalName = "Developer";
-                userManager.Create(developUser, "123!Shl");
+                userManager.Create(developUser, "235!Shl");
             }
             else
             {
-                developUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
+                developUser = context.Users.Where(p => p.UserName == "developer@bugtracker.com").FirstOrDefault();
             }
             if (!userManager.IsInRole(developUser.Id, "Developer"))
             {
                 userManager.AddToRole(developUser.Id, "Developer");
             }
             ApplicationUser projManagerUser;
-            if (!context.Users.Any(p => p.UserName == "shll20120727@163.com"))
+            if (!context.Users.Any(p => p.UserName == "projectmanager@bugtracker.com"))
             {
                 projManagerUser = new ApplicationUser();
-                projManagerUser.UserName = "shll20120727@163.com";
-                projManagerUser.Email = "shll20120727@163.com";
+                projManagerUser.UserName = "projectmanager@bugtracker.com";
+                projManagerUser.Email = "projectmanager@bugtracker.com";
                 projManagerUser.Name = "Project Manager";
                 projManagerUser.FinalName = "Project Manager";
-                userManager.Create(projManagerUser, "123!Shl");
+                userManager.Create(projManagerUser, "135!Shl");
             }
             else
             {
-                projManagerUser = context.Users.Where(p => p.UserName == "shll20120727@163.com").FirstOrDefault();
+                projManagerUser = context.Users.Where(p => p.UserName == "projectmanager@bugtracker.com").FirstOrDefault();
             }
             if (!userManager.IsInRole(projManagerUser.Id, "Project Manager"))
             {
