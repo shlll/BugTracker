@@ -10,7 +10,7 @@ namespace BugTracker.Models
     {
         public int Id { get; set; }
         public MultiSelectList TicketList { get; set; }
-        public string[] SelectedTicket { get; set; }
+        public string SelectedTicket { get; set; }
         public string Name { get; set; }
     }
 }

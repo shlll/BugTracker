@@ -210,6 +210,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AssignedOfTheTicketsModel.cs" />
     <Compile Include="Models\Classes\Project.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PersonalEmailOfTheService.cs" />
@@ -326,6 +327,7 @@
     <Content Include="Views\TicketModels\Edit.cshtml" />
     <Content Include="Views\TicketModels\Index.cshtml" />
     <Content Include="Views\TicketModels\AssignedTickets.cshtml" />
+    <Content Include="private.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

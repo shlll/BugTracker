@@ -5,7 +5,9 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using BugTracker.Helper;
 using BugTracker.Models;
@@ -13,6 +15,7 @@ using Microsoft.AspNet.Identity;
 
 namespace BugTracker.Controllers
 {
+    [Authorize]
     public class TicketModelsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -33,7 +36,6 @@ namespace BugTracker.Controllers
         public ActionResult SubmitterOfTheTickets()
         {
             var userId = User.Identity.GetUserId();
-
             var ticketModels = db.TicketModels.
                 Where(p => p.CreatingId == userId).
                 Include(t => t.Project).
@@ -49,7 +51,6 @@ namespace BugTracker.Controllers
         public ActionResult DeveloperOfTheTickets()
         {
             var userId = User.Identity.GetUserId();
-
             var ticketModels = db.TicketModels.
                 Where(p=>p.AssignedId == userId).
                 Include(t => t.Project).
@@ -59,7 +60,6 @@ namespace BugTracker.Controllers
                 Include(t => t.TicketPriority).
                 Include(t => t.TicketStatus).
                 Include(t => t.TicketType);
-
             return View("Index", ticketModels.ToList());
         }
         [Authorize(Roles = "Project Manager, Developer")]
@@ -70,8 +70,6 @@ namespace BugTracker.Controllers
                 Projects.Select(p => p.Id).FirstOrDefault();
             return View("Index", db.TicketModels.Where(p => p.Id == projectModel).ToList());
         }
-
-
         // GET: TicketModels/Details/5
         public ActionResult Details(int? id)
         {
@@ -86,7 +84,6 @@ namespace BugTracker.Controllers
             }
             return View(ticketModel);
         }
-
         // GET: TicketModels/Create
         public ActionResult Create()
         {
@@ -98,7 +95,6 @@ namespace BugTracker.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
             return View();
         }
-
         // POST: TicketModels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -143,6 +139,16 @@ namespace BugTracker.Controllers
             comments.TicketId = ticketModels.Id;
             comments.Comment = body;
             db.TicketCommentsModels.Add(comments);
+            var commentTickets = db.Users.Where(t => t.Id == comments.UserId).FirstOrDefault();
+            var emailService = new PersonalEmailOfTheService();
+            var mailMessage = new MailMessage(
+                WebConfigurationManager.AppSettings["emailto"],
+                commentTickets.Email
+                );
+            mailMessage.Body = "Please add some comments";
+            mailMessage.Subject = "Comments";
+            mailMessage.IsBodyHtml = true;
+            emailService.Send(mailMessage);
             db.SaveChanges();
             return RedirectToAction("Details", new { id });
         }
@@ -166,22 +172,22 @@ namespace BugTracker.Controllers
                 attachments.TicketId = attachmentsModel.Id;
                 attachments.Created = DateTime.Now;
                 attachments.Description = content;
-            
-            db.TicketAttachmentsModels.Add(attachments);
-            db.SaveChanges();
+                db.TicketAttachmentsModels.Add(attachments);
+                var attachmentTickets = db.Users.Where(t => t.Id == attachments.UserId).FirstOrDefault();
+                var emailService = new PersonalEmailOfTheService();
+                var mailMessage = new MailMessage(
+                    WebConfigurationManager.AppSettings["emailto"],
+                    attachmentTickets.Email
+                    );
+                mailMessage.Body = "Please add some attachments if you want.";
+                mailMessage.Subject = "Attachments";
+                mailMessage.IsBodyHtml = true;
+                emailService.Send(mailMessage);
+                db.SaveChanges();
             return RedirectToAction("Details", new { id });
             }
             return View(attachments);
         }
-        //[HttpPost]
-        //[Authorize(Roles = "Developer")]
-        //public ActionResult CreateNotification(int id)
-        //{
-        //    var notifications = new TicketNotificationsModel();
-        //    var notificationModel = db.TicketModels.Where().
-
-        //}
-        // GET: TicketModels/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -200,7 +206,6 @@ namespace BugTracker.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticketModel.ProjectId);
             return View(ticketModel);
         }
-
         // POST: TicketModels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -237,6 +242,19 @@ namespace BugTracker.Controllers
                     }
                 }
                 db.TicketHistoriesModels.AddRange(changes);
+                if(ticketModel.AssignedId != null)
+                {
+                var historyTickets = db.Users.Where(t => t.Id == ticketModel.AssignedId).FirstOrDefault();
+                var emailService = new PersonalEmailOfTheService();
+                var mailMessage = new MailMessage(
+                    WebConfigurationManager.AppSettings["emailto"],
+                    historyTickets.Email
+                    );
+                mailMessage.Body = "Your tickets were changed :(";
+                mailMessage.Subject = "Changed";
+                mailMessage.IsBodyHtml = true;
+                emailService.Send(mailMessage);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -277,24 +295,20 @@ namespace BugTracker.Controllers
         public ActionResult AssignedTickets(AssignedOfTheTicketsModel model)
         {
             var ticket = db.TicketModels.FirstOrDefault(p => p.Id == model.Id);
-            foreach (var developer in ticket.Users.ToList())
-            {
-                ticket.Users.Remove(developer);
-            }
-            if (model.SelectedTicket != null)
-            {
-                foreach (var userId in model.SelectedTicket)
-                {
-                    var user = db.Users.FirstOrDefault(p => p.Id == userId);
-                    ticket.Users.Add(user);
-                }
-            }
-
+            ticket.AssignedId = model.SelectedTicket;
+            var assignTickets = db.Users.Where(t => t.Id == model.SelectedTicket).FirstOrDefault();
+            var emailService = new PersonalEmailOfTheService();
+            var mailMessage = new MailMessage(
+                WebConfigurationManager.AppSettings["emailto"],
+                assignTickets.Email
+                );
+            mailMessage.Body = "Your database has changed. :(";
+            mailMessage.Subject = "Assigned Developer";
+            mailMessage.IsBodyHtml = true;
+            emailService.Send(mailMessage);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
         // GET: TicketModels/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -309,7 +323,6 @@ namespace BugTracker.Controllers
             }
             return View(ticketModel);
         }
-
         // POST: TicketModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -320,8 +333,6 @@ namespace BugTracker.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

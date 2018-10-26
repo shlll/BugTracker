@@ -1,9 +1,16 @@
 ﻿@model BugTracker.Models.TicketModel
 
+
 @{
     ViewBag.Title = "Details";
 }
-
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ticketTable').DataTable();
+        });
+    </script>
+}
 
 
 
@@ -14,7 +21,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">
-                   Details of the ticket
+                    Details of the ticket
                     <small>Details</small>
                 </h1>
                 @*<ol class="breadcrumb">
@@ -107,12 +114,12 @@
                         </dd>
 
                         @*<dt>
-            @Html.DisplayNameFor(model => model.CreatingId)
-        </dt>*@
+                                @Html.DisplayNameFor(model => model.CreatingId)
+                            </dt>*@
 
                         @*<dd>
-            @Html.DisplayFor(model => model.CreatingId)
-        </dd>*@
+                                @Html.DisplayFor(model => model.CreatingId)
+                            </dd>*@
 
                     </dl>
                 </div>
@@ -162,7 +169,7 @@
             <p>
                 @attachment.User.FinalName - @attachment.Description - @attachment.Created.ToString("dd/MM/yyyy HH:mm");
             </p>
-            <img src="@attachment.FilePath" class="img-responsive"/>
+            <img src="@attachment.FilePath" class="img-responsive" />
         }
     </div>
     @if (User.Identity.IsAuthenticated)
@@ -185,13 +192,89 @@
             }
         </div>
     }
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+    
 </div>
+<table id="ticketTable" class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @*@Html.DisplayNameFor(model => model.Property)*@
+                PropertyChanged
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Name)*@
+                OldValue
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Created)*@
+                NewValue
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Updated)*@
+                Changed
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Project.Name)*@
+                Modifier
+            </th>
+           
+        </tr>
+    </thead>
+    @*<tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Project.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayDate(item.Created)
+                </td>
+                <td>
+                    @Html.DisplayDate(item.Updated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                </td>
+               
+                
+            </tr>
+        }
+    </tbody>*@
+</table>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
 <style>
     body {
         background-color: white;
     }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
