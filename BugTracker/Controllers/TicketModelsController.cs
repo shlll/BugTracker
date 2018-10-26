@@ -38,7 +38,6 @@ namespace BugTracker.Controllers
             var userId = User.Identity.GetUserId();
             var ticketModels = db.TicketModels.
                 Where(p => p.CreatingId == userId).
-                Include(t => t.Project).
                 Include(t => t.TicketComments).
                 Include(t => t.Assigned).
                 Include(t => t.Creating).
@@ -53,7 +52,6 @@ namespace BugTracker.Controllers
             var userId = User.Identity.GetUserId();
             var ticketModels = db.TicketModels.
                 Where(p=>p.AssignedId == userId).
-                Include(t => t.Project).
                 Include(t => t.TicketComments).
                 Include(t => t.Assigned).
                 Include(t => t.Creating).
@@ -66,9 +64,14 @@ namespace BugTracker.Controllers
         public ActionResult TheProjManagerTicketsAndTheDeveloperTickets()
         {
             var userId = User.Identity.GetUserId();
-            var projectModel = db.Users.Where(p => p.Id == userId).Include(t => t.TicketComments).FirstOrDefault().
-                Projects.Select(p => p.Id).FirstOrDefault();
-            return View("Index", db.TicketModels.Where(p => p.Id == projectModel).ToList());
+            var ticketModels = db.TicketModels.Where(ticket => ticket.Project.Users.Any(user => user.Id == userId)).
+                Include(t => t.TicketComments).
+                Include(t => t.Assigned).
+                Include(t => t.Creating).
+                Include(t => t.TicketPriority).
+                Include(t => t.TicketStatus).
+                Include(t => t.TicketType);
+            return View("Index", ticketModels.ToList());
         }
         // GET: TicketModels/Details/5
         public ActionResult Details(int? id)
@@ -250,7 +253,7 @@ namespace BugTracker.Controllers
                     WebConfigurationManager.AppSettings["emailto"],
                     historyTickets.Email
                     );
-                mailMessage.Body = "Your tickets were changed :(";
+                mailMessage.Body = "Sorry! Your tickets were changed :(";
                 mailMessage.Subject = "Changed";
                 mailMessage.IsBodyHtml = true;
                 emailService.Send(mailMessage);
@@ -302,7 +305,7 @@ namespace BugTracker.Controllers
                 WebConfigurationManager.AppSettings["emailto"],
                 assignTickets.Email
                 );
-            mailMessage.Body = "Your database has changed. :(";
+            mailMessage.Body = "Sorry! Your database has changed. :(";
             mailMessage.Subject = "Assigned Developer";
             mailMessage.IsBodyHtml = true;
             emailService.Send(mailMessage);
