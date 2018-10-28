@@ -16,7 +16,8 @@ namespace BugTracker.Models
         public string Name { get; set; }
         public ApplicationUser()
         {
- 
+
+            Users = new HashSet<ApplicationUser>();
             Projects = new HashSet<Project>();
             UsersCreatedTheTickets = new HashSet<TicketModel>();
             UsersAssignedTheTickets = new HashSet<TicketModel>();
@@ -39,8 +40,8 @@ namespace BugTracker.Models
         public virtual ICollection<TicketCommentsModel> TicketComments { get; set; }
 
         public virtual ICollection<TicketHistoriesModel> TicketHistories { get; set; }
+        public virtual ICollection<ApplicationUser> Users { get; set; }
 
-       
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

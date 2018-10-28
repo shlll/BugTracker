@@ -19,11 +19,12 @@ namespace BugTracker.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -35,9 +36,9 @@ namespace BugTracker.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -52,8 +53,61 @@ namespace BugTracker.Controllers
                 _userManager = value;
             }
         }
-
-        //
+        [AllowAnonymous]
+        public ActionResult TheAdminLogIn(string id, ApplicationDbContext data, ApplicationUser users)
+        {
+            if(id == "Admin")
+            {
+                users = data.Users.FirstOrDefault(t => t.Email == "adminator@bugtracker.com");
+            }
+            if (users != null){
+            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            SignInManager.SignIn(users, false, false);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        [AllowAnonymous]
+        public ActionResult TheSubmitterLogIn(string id, ApplicationDbContext data, ApplicationUser users)
+        {
+            if (id == "Submitter")
+            {
+                users = data.Users.FirstOrDefault(t => t.Email == "submitter@bugtracker.com");
+            }
+            if (users != null)
+            {
+                var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                SignInManager.SignIn(users, false, false);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        [AllowAnonymous]
+        public ActionResult TheDeveloperLogIn(string id, ApplicationDbContext data, ApplicationUser users)
+        {
+            if (id == "Developer")
+            {
+                users = data.Users.FirstOrDefault(t => t.Email == "developer@bugtracker.com");
+            }
+            if (users != null)
+            {
+                var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                SignInManager.SignIn(users, false, false);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+        [AllowAnonymous]
+        public ActionResult TheProjectManagerLogIn(string id, ApplicationDbContext data, ApplicationUser users)
+        {
+            if (id == "Project Manager")
+            {
+                users = data.Users.FirstOrDefault(t => t.Email == "projectmanager@bugtracker.com");
+            }
+            if (users != null)
+            {
+                var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                SignInManager.SignIn(users,  false,  false);
+            }
+            return RedirectToAction("Index", "Home");
+        }
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)

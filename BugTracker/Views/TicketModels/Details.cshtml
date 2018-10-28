@@ -131,7 +131,7 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
-<div class="container" style="display:flex">
+<div class="container" style="display:block">
     <div style="color:blueviolet">
         Comments:
         @foreach (var comment in Model.TicketComments)
@@ -221,39 +221,28 @@
            
         </tr>
     </thead>
-    @*<tbody>
-        @foreach (var item in Model)
+    <tbody>
+        @foreach (var item in Model.TicketHistories)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Project.Name)
+                <td @*style="text-align:center"*@>
+                    @Html.DisplayFor(modelItem => item.Property)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                <td @*style="text-align:center"*@>
+                    @Html.DisplayFor(modelItem => item.OldValue)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                <td @*style="text-align:center"*@>
+                    @Html.DisplayFor(modelItem => item.NewValue)
                 </td>
-                <td>
-                    @Html.DisplayDate(item.Created)
+                <td @*style="text-align:center"*@>
+                    @Html.DisplayDate(item.Changed)
                 </td>
-                <td>
-                    @Html.DisplayDate(item.Updated)
+                <td @*style="text-align:center"*@>
+                    @Html.DisplayFor(modelItem => item.User.FinalName)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketType.Name)
-                </td>
-               
-                
-            </tr>
+           </tr>
         }
-    </tbody>*@
+    </tbody>
 </table>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

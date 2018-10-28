@@ -32,47 +32,6 @@ namespace BugTracker.Controllers
                 Include(t => t.TicketType);
             return View(ticketModels.ToList());
         }
-        [Authorize(Roles = "Submitter")]
-        public ActionResult SubmitterOfTheTickets()
-        {
-            var userId = User.Identity.GetUserId();
-            var ticketModels = db.TicketModels.
-                Where(p => p.CreatingId == userId).
-                Include(t => t.TicketComments).
-                Include(t => t.Assigned).
-                Include(t => t.Creating).
-                Include(t => t.TicketPriority).
-                Include(t => t.TicketStatus).
-                Include(t => t.TicketType);
-            return View("Index", ticketModels.ToList());
-        }
-        [Authorize(Roles = "Developer")]
-        public ActionResult DeveloperOfTheTickets()
-        {
-            var userId = User.Identity.GetUserId();
-            var ticketModels = db.TicketModels.
-                Where(p=>p.AssignedId == userId).
-                Include(t => t.TicketComments).
-                Include(t => t.Assigned).
-                Include(t => t.Creating).
-                Include(t => t.TicketPriority).
-                Include(t => t.TicketStatus).
-                Include(t => t.TicketType);
-            return View("Index", ticketModels.ToList());
-        }
-        [Authorize(Roles = "Project Manager, Developer")]
-        public ActionResult TheProjManagerTicketsAndTheDeveloperTickets()
-        {
-            var userId = User.Identity.GetUserId();
-            var ticketModels = db.TicketModels.Where(ticket => ticket.Project.Users.Any(user => user.Id == userId)).
-                Include(t => t.TicketComments).
-                Include(t => t.Assigned).
-                Include(t => t.Creating).
-                Include(t => t.TicketPriority).
-                Include(t => t.TicketStatus).
-                Include(t => t.TicketType);
-            return View("Index", ticketModels.ToList());
-        }
         // GET: TicketModels/Details/5
         public ActionResult Details(int? id)
         {
@@ -278,11 +237,52 @@ namespace BugTracker.Controllers
             {
                 return db.StatusOfTickets.Find(Convert.ToInt32(key)).Name;
             }
-            if (propName == "TicketPriorityId")
+            if(propName == "TicketPriorityId")
             {
                 return db.PriorityOfTickets.Find(Convert.ToInt32(key)).Name;
             }
             return key;
+        }
+        [Authorize(Roles = "Submitter")]
+        public ActionResult SubmitterOfTheTickets()
+        {
+            var userId = User.Identity.GetUserId();
+            var ticketModels = db.TicketModels.
+                Where(p => p.CreatingId == userId).
+                Include(t => t.TicketComments).
+                Include(t => t.Assigned).
+                Include(t => t.Creating).
+                Include(t => t.TicketPriority).
+                Include(t => t.TicketStatus).
+                Include(t => t.TicketType);
+            return View("Index", ticketModels.ToList());
+        }
+        [Authorize(Roles = "Developer")]
+        public ActionResult DeveloperOfTheTickets()
+        {
+            var userId = User.Identity.GetUserId();
+            var ticketModels = db.TicketModels.
+                Where(p => p.AssignedId == userId).
+                Include(t => t.TicketComments).
+                Include(t => t.Assigned).
+                Include(t => t.Creating).
+                Include(t => t.TicketPriority).
+                Include(t => t.TicketStatus).
+                Include(t => t.TicketType);
+            return View("Index", ticketModels.ToList());
+        }
+        [Authorize(Roles = "Project Manager, Developer")]
+        public ActionResult TheProjManagerTicketsAndTheDeveloperTickets()
+        {
+            var userId = User.Identity.GetUserId();
+            var ticketModels = db.TicketModels.Where(ticket => ticket.Project.Users.Any(user => user.Id == userId)).
+                Include(t => t.TicketComments).
+                Include(t => t.Assigned).
+                Include(t => t.Creating).
+                Include(t => t.TicketPriority).
+                Include(t => t.TicketStatus).
+                Include(t => t.TicketType);
+            return View("Index", ticketModels.ToList());
         }
         public ActionResult AssignedTickets(int id)
         {
