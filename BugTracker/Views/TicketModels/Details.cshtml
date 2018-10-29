@@ -1,6 +1,4 @@
 ﻿@model BugTracker.Models.TicketModel
-
-
 @{
     ViewBag.Title = "Details";
 }
@@ -11,10 +9,6 @@
         });
     </script>
 }
-
-
-
-
 <div id="page-wrapper">
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -37,7 +31,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>Details</h2>
-
                 <div>
                     <h4>TicketModel</h4>
                     <hr />
@@ -46,84 +39,56 @@
                             @*@Html.DisplayNameFor(model => model.Project.Name)*@
                             ProjectId
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Project.Name)
                         </dd>
-
                         <dt>
                             @Html.DisplayNameFor(model => model.Description)
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Description)
                         </dd>
-
                         <dt>
                             @Html.DisplayNameFor(model => model.Name)
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Name)
                         </dd>
-
                         <dt>
                             @Html.DisplayNameFor(model => model.Created)
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Created)
                         </dd>
-
                         <dt>
                             @Html.DisplayNameFor(model => model.Updated)
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Updated)
                         </dd>
-
                         <dt>
                             @*@Html.DisplayNameFor(model => model.TicketPriority.Name)*@
                             TicketPriorityId
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.TicketPriority.Name)
-
                         </dd>
-
                         <dt>
                             @*@Html.DisplayNameFor(model => model.TicketStatus.Name)*@
                             TicketStatusId
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.TicketStatus.Name)
-
                         </dd>
-
                         <dt>
                             @*@Html.DisplayNameFor(model => model.TicketType.Name)*@
                             TicketTypeId
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.TicketType.Name)
-
                         </dd>
-
-                        @*<dt>
-                                @Html.DisplayNameFor(model => model.CreatingId)
-                            </dt>*@
-
-                        @*<dd>
-                                @Html.DisplayFor(model => model.CreatingId)
-                            </dd>*@
-
                     </dl>
                 </div>
-
             </div>
         </div>
         <!-- /.row -->
@@ -139,7 +104,6 @@
             <p>
                 @comment.Comment - by @comment.User.FinalName - @comment.Created.ToString("dd/MM/yyyy HH:mm")
             </p>
-
         }
     </div>
     @if (User.Identity.IsAuthenticated)
@@ -159,7 +123,6 @@
                 }
                 <input type="submit" value="Submit" />
             }
-
         </div>
     }
     <div style="color:blue">
@@ -175,10 +138,8 @@
     @if (User.Identity.IsAuthenticated)
     {
         <div>
-
             @using (Html.BeginForm("CreateAttachments", "TicketModels", new { id = Model.Id }, FormMethod.Post, new { content = Model.Description, enctype = "Multipart/form-data" }))
             {
-
                 <input name="img" type="file" class="form-control" id="fileUpload" />
                 <div style="color:blue">
                     Please input your subject!!
@@ -192,12 +153,10 @@
             }
         </div>
     }
-    
 </div>
 <table id="ticketTable" class="table">
     <thead>
         <tr>
-            
             <th>
                 @*@Html.DisplayNameFor(model => model.Property)*@
                 PropertyChanged
@@ -218,7 +177,6 @@
                 @*@Html.DisplayNameFor(model => model.Project.Name)*@
                 Modifier
             </th>
-           
         </tr>
     </thead>
     <tbody>
@@ -240,7 +198,7 @@
                 <td @*style="text-align:center"*@>
                     @Html.DisplayFor(modelItem => item.User.FinalName)
                 </td>
-           </tr>
+            </tr>
         }
     </tbody>
 </table>
@@ -253,6 +211,8 @@
         background-color: white;
     }
 </style>
+
+
 
 
 

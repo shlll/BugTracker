@@ -15,17 +15,14 @@ namespace BugTracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
         public ManageController()
         {
         }
-
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -37,7 +34,6 @@ namespace BugTracker.Controllers
                 _signInManager = value; 
             }
         }
-
         public ApplicationUserManager UserManager
         {
             get
@@ -49,7 +45,6 @@ namespace BugTracker.Controllers
                 _userManager = value;
             }
         }
-
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
@@ -74,8 +69,7 @@ namespace BugTracker.Controllers
             };
             return View(model);
         }
-
-        //
+         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -98,14 +92,12 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("ManageLogins", new { Message = message });
         }
-
         //
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
             return View();
         }
-
         //
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
@@ -129,8 +121,7 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
-
-        //
+         //
         // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -144,7 +135,6 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("Index", "Manage");
         }
-
         //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
@@ -159,7 +149,6 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("Index", "Manage");
         }
-
         //
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
@@ -168,7 +157,6 @@ namespace BugTracker.Controllers
             // Send an SMS through the SMS provider to verify the phone number
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
-
         //
         // POST: /Manage/VerifyPhoneNumber
         [HttpPost]
@@ -193,7 +181,6 @@ namespace BugTracker.Controllers
             ModelState.AddModelError("", "Failed to verify phone");
             return View(model);
         }
-
         //
         // POST: /Manage/RemovePhoneNumber
         [HttpPost]
@@ -212,14 +199,12 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
-
         //
         // GET: /Manage/ChangePassword
         public ActionResult ChangePassword()
         {
             return View();
         }
-
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
@@ -243,14 +228,12 @@ namespace BugTracker.Controllers
             AddErrors(result);
             return View(model);
         }
-
         //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
             return View();
         }
-
         //
         // POST: /Manage/SetPassword
         [HttpPost]
@@ -275,8 +258,7 @@ namespace BugTracker.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        //
+         //
         // GET: /Manage/ManageLogins
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
@@ -298,7 +280,6 @@ namespace BugTracker.Controllers
                 OtherLogins = otherLogins
             });
         }
-
         //
         // POST: /Manage/LinkLogin
         [HttpPost]
@@ -308,7 +289,6 @@ namespace BugTracker.Controllers
             // Request a redirect to the external login provider to link a login for the current user
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
-
         //
         // GET: /Manage/LinkLoginCallback
         public async Task<ActionResult> LinkLoginCallback()
@@ -321,7 +301,6 @@ namespace BugTracker.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
@@ -332,11 +311,9 @@ namespace BugTracker.Controllers
 
             base.Dispose(disposing);
         }
-
-#region Helpers
+  #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
-
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -344,7 +321,6 @@ namespace BugTracker.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -352,7 +328,6 @@ namespace BugTracker.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-
         private bool HasPassword()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -362,7 +337,6 @@ namespace BugTracker.Controllers
             }
             return false;
         }
-
         private bool HasPhoneNumber()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -372,7 +346,6 @@ namespace BugTracker.Controllers
             }
             return false;
         }
-
         public enum ManageMessageId
         {
             AddPhoneSuccess,
@@ -383,7 +356,6 @@ namespace BugTracker.Controllers
             RemovePhoneSuccess,
             Error
         }
-
 #endregion
     }
 }

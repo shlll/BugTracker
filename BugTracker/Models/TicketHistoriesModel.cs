@@ -16,6 +16,5 @@ namespace BugTracker.Models
         public string OldValue { get; set; }
         public string NewValue { get; set; }
         public DateTimeOffset Changed { get; set; }
-        
     }
 }

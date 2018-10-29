@@ -47,10 +47,8 @@ namespace BugTracker.Controllers
                                              model.Body),
                         IsBodyHtml = true
                     };
-
                     var svc = new PersonalEmailOfTheService();
                     await svc.SendAsync(email);
-
                     return View(new EmailModel());
                 }
                 catch (Exception ex)

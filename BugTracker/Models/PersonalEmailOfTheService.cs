@@ -17,8 +17,6 @@ namespace BugTracker.Models
             var password = WebConfigurationManager.AppSettings["password"];
             var host = WebConfigurationManager.AppSettings["host"];
             int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
-
-
             using (var smtp = new SmtpClient()
             {
                 Host = host,
@@ -41,7 +39,6 @@ namespace BugTracker.Models
                 }
             };
         }
-
         public void Send(MailMessage message)
         {
             var account = WebConfigurationManager.AppSettings["username"];

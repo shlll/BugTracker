@@ -2,9 +2,7 @@
 @{
     ViewBag.Title = "AssignUsers";
 }
-
 <h2 style="color:red;text-align:center;font-style:oblique" >AssignUsers</h2>
-
 <div id="page-wrapper">
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -29,8 +27,6 @@
                 @using (Html.BeginForm())
                 {
                     @Html.HiddenFor(p => p.Id)
-
-
                     @Html.ListBoxFor(p => p.SelectedUsers, Model.UserList)
                     <button type="submit" style="background-color:blue;color:yellow">Please Change!</button>
                 }

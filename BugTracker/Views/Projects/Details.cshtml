@@ -1,10 +1,7 @@
 ﻿@model BugTracker.Models.Classes.Project
-
 @{
     ViewBag.Title = "Details";
 }
-
-
 <div id="page-wrapper">
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -27,7 +24,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2 style="color:red;text-align:center;font-style:oblique">Details</h2>
-
                 <div>
                     <h4 style="color:red;text-align:center;font-style:oblique">Project</h4>
                     <hr />
@@ -39,23 +35,23 @@
                         <dd>
                             @Html.DisplayFor(model => model.Name)
                         </dd>
-
                     </dl>
                 </div>
                 <p>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
                     @Html.ActionLink("Back to List", "Index")
                 </p>
-
             </div>
         </div>
         <!-- /.row -->
     </div>
-    <style>
-        body {
-            background-color: gold;
-        }
-    </style>
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<style>
+    body {
+        background-color: gold;
+    }
+</style>
+
+

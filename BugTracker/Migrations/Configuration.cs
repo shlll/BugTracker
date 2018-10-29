@@ -15,12 +15,10 @@ namespace BugTracker.Migrations
             AutomaticMigrationsEnabled = true;
             ContextKey = "BugTracker.Models.ApplicationDbContext";
         }
-
         protected override void Seed(BugTracker.Models.ApplicationDbContext context)
         {
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
@@ -37,8 +35,6 @@ namespace BugTracker.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "Project Manager" });
             }
-
-
             ApplicationUser adminUser;
             if (!context.Users.Any(p => p.UserName == "adminator@bugtracker.com"))
             {
@@ -111,7 +107,6 @@ namespace BugTracker.Migrations
             {
                 userManager.AddToRole(projManagerUser.Id, "Project Manager");
             }
-            
             context.PriorityOfTickets.AddOrUpdate(
                 new PriorityOfTicket() { Id = 1, Name = "Very Low" },
                 new PriorityOfTicket() { Id = 2, Name = "Low" },
@@ -120,14 +115,11 @@ namespace BugTracker.Migrations
                 
             );
             context.SaveChanges();
-
-
             context.TypeOfTickets.AddOrUpdate(
                new TypeOfTicket() { Id = 1, Name = "Bug Fixes" },
                new TypeOfTicket() { Id = 2, Name = "Software Update" }
             );
             context.SaveChanges();
-
             context.StatusOfTickets.AddOrUpdate(
              new StatusOfTicket() { Id = 1, Name = "Not Started" },
              new StatusOfTicket() { Id = 2, Name = "Finished" },
@@ -135,15 +127,6 @@ namespace BugTracker.Migrations
              new StatusOfTicket() { Id = 4, Name = "In Progress" }
           );
             context.SaveChanges();
-
-          
-
-
-
-
-
-
-
         }
     }
 }

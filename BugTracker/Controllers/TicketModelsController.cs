@@ -85,7 +85,6 @@ namespace BugTracker.Controllers
             return View(ticketModel);
         }
         [HttpPost]
-      
         public ActionResult CreateComment(int id, string body)
         {
             var ticketModels = db.TicketModels.Where(p => p.Id == id).FirstOrDefault();

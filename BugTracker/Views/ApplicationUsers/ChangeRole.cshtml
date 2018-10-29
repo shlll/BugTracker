@@ -2,9 +2,7 @@
 @{
     ViewBag.Title = "ChangeRole";
 }
-
 <h2 style="color:red;text-align:center;font-style:oblique">ChangeRole</h2>
-
 <div id="page-wrapper">
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -15,13 +13,13 @@
                     <small style="color:greenyellow;text-align:center;font-style:oblique">Change Roles</small>
                 </h1>
                 @*<ol class="breadcrumb">
-                    <li>
-                        <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
-                    </li>
-                    <li class="active">
-                        <i class="fa fa-file"></i> Blank Page
-                    </li>
-                </ol>*@
+                        <li>
+                            <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="active">
+                            <i class="fa fa-file"></i> Blank Page
+                        </li>
+                    </ol>*@
             </div>
         </div>
         <div class="row">
@@ -33,9 +31,7 @@
                     @using (Html.BeginForm())
                     {
                         @Html.HiddenFor(p => p.Id)
-
                         @Html.ListBoxFor(p => p.SelectedRoles, Model.Roles)
-
                         <button type="submit" style="background-color:blue;color:yellow">Please Submit!</button>
                     }
                 </div>
@@ -43,7 +39,7 @@
         </div>
         <style>
             body {
-                background-color:yellowgreen;
+                background-color: yellowgreen;
             }
         </style>
         <!-- /.row -->

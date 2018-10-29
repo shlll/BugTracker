@@ -14,7 +14,6 @@ namespace BugTracker.Models
             TicketAttachments = new HashSet<TicketAttachmentsModel>();
             TicketComments = new HashSet<TicketCommentsModel>();
             TicketHistories = new HashSet<TicketHistoriesModel>();
-           
         }
         public int Id { get; set; }
         public string Description { get; set; }
@@ -37,10 +36,5 @@ namespace BugTracker.Models
         public virtual ICollection<TicketCommentsModel> TicketComments { get; set; }
         public virtual ICollection<TicketHistoriesModel> TicketHistories { get; set; }
         public virtual ICollection<ApplicationUser> Users { get; set; }
-
-
-
-
-
     }
 }

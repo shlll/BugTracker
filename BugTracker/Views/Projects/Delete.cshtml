@@ -1,10 +1,7 @@
 ﻿@model BugTracker.Models.Classes.Project
-
 @{
     ViewBag.Title = "Delete";
 }
-
-
 <div id="page-wrapper">
     <div class="container-fluid">
         <!-- Page Heading -->
@@ -37,17 +34,13 @@
                         <dt>
                             @Html.DisplayNameFor(model => model.Name)
                         </dt>
-
                         <dd>
                             @Html.DisplayFor(model => model.Name)
                         </dd>
-
                     </dl>
-
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
-
                         <div class="form-actions no-color">
                             <input type="submit" style="background-color:blue;color:yellowgreen;" value="Delete" class="btn btn-default" /> |
                             @Html.ActionLink("Back to List", "Index")
@@ -58,14 +51,23 @@
         </div>
         <!-- /.row -->
     </div>
-    <style>
-        body {
-            background-color: yellow;
-        }
-    </style>
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<style>
+    body {
+        background-color: yellow;
+    }
+</style>
+
+
+
+
+
+
+
+
+
 
 
 

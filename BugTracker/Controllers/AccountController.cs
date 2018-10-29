@@ -18,18 +18,14 @@ namespace BugTracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
-
         public AccountController()
         {
         }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -40,8 +36,7 @@ namespace BugTracker.Controllers
             {
                 _signInManager = value;
             }
-        }
-
+        }    
         public ApplicationUserManager UserManager
         {
             get
@@ -59,12 +54,7 @@ namespace BugTracker.Controllers
             users = database.Users.FirstOrDefault(t => t.Email == "adminator@bugtracker.com");
             await SignInManager.SignInAsync(users, isPersistent: false, rememberBrowser: false);
             return RedirectToAction("Index", "Home");
-            //var user = data.Users.Where(p => p.UserName == "adminator@bugtracker.com").FirstOrDefault();
-            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            //SignInManager.SignIn(user, false, false);
-            //return RedirectToAction("Index", "Home");
         }
-
         [AllowAnonymous]
         public async Task<ActionResult> TheSubmitterLogInAsync(ApplicationDbContext database, ApplicationUser users)
         {
@@ -93,7 +83,6 @@ namespace BugTracker.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
         //
         // POST: /Account/Login
         [HttpPost]
@@ -105,7 +94,6 @@ namespace BugTracker.Controllers
             {
                 return View(model);
             }
-
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -123,7 +111,6 @@ namespace BugTracker.Controllers
                     return View(model);
             }
         }
-
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -136,7 +123,6 @@ namespace BugTracker.Controllers
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-
         //
         // POST: /Account/VerifyCode
         [HttpPost]
@@ -148,7 +134,6 @@ namespace BugTracker.Controllers
             {
                 return View(model);
             }
-
             // The following code protects for brute force attacks against the two factor codes. 
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
@@ -166,7 +151,6 @@ namespace BugTracker.Controllers
                     return View(model);
             }
         }
-
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -174,7 +158,6 @@ namespace BugTracker.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/Register
         [HttpPost]
@@ -196,16 +179,13 @@ namespace BugTracker.Controllers
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -218,7 +198,6 @@ namespace BugTracker.Controllers
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
-
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -226,7 +205,6 @@ namespace BugTracker.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/ForgotPassword
         [HttpPost]
@@ -242,7 +220,6 @@ namespace BugTracker.Controllers
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -250,11 +227,9 @@ namespace BugTracker.Controllers
                 await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
@@ -262,7 +237,6 @@ namespace BugTracker.Controllers
         {
             return View();
         }
-
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
@@ -270,7 +244,6 @@ namespace BugTracker.Controllers
         {
             return code == null ? View("Error") : View();
         }
-
         //
         // POST: /Account/ResetPassword
         [HttpPost]
@@ -296,7 +269,6 @@ namespace BugTracker.Controllers
             AddErrors(result);
             return View();
         }
-
         //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
@@ -304,7 +276,6 @@ namespace BugTracker.Controllers
         {
             return View();
         }
-
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -315,7 +286,6 @@ namespace BugTracker.Controllers
             // Request a redirect to the external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
-
         //
         // GET: /Account/SendCode
         [AllowAnonymous]
@@ -330,7 +300,6 @@ namespace BugTracker.Controllers
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
-
         //
         // POST: /Account/SendCode
         [HttpPost]
@@ -342,7 +311,6 @@ namespace BugTracker.Controllers
             {
                 return View();
             }
-
             // Generate the token and send it
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
@@ -350,7 +318,6 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
-
         //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
@@ -361,7 +328,6 @@ namespace BugTracker.Controllers
             {
                 return RedirectToAction("Login");
             }
-
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
@@ -380,7 +346,6 @@ namespace BugTracker.Controllers
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
-
         //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
@@ -392,7 +357,6 @@ namespace BugTracker.Controllers
             {
                 return RedirectToAction("Index", "Manage");
             }
-
             if (ModelState.IsValid)
             {
                 // Get the information about the user from the external login provider
@@ -414,11 +378,9 @@ namespace BugTracker.Controllers
                 }
                 AddErrors(result);
             }
-
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
-
         //
         // POST: /Account/LogOff
         [HttpPost]
@@ -428,7 +390,6 @@ namespace BugTracker.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
-
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
@@ -436,7 +397,6 @@ namespace BugTracker.Controllers
         {
             return View();
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -446,21 +406,17 @@ namespace BugTracker.Controllers
                     _userManager.Dispose();
                     _userManager = null;
                 }
-
                 if (_signInManager != null)
                 {
                     _signInManager.Dispose();
                     _signInManager = null;
                 }
             }
-
             base.Dispose(disposing);
         }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
-
         private IAuthenticationManager AuthenticationManager
         {
             get
@@ -468,7 +424,6 @@ namespace BugTracker.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
-
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -476,7 +431,6 @@ namespace BugTracker.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -485,7 +439,6 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
         internal class ChallengeResult : HttpUnauthorizedResult
         {
             public ChallengeResult(string provider, string redirectUri)
@@ -499,11 +452,9 @@ namespace BugTracker.Controllers
                 RedirectUri = redirectUri;
                 UserId = userId;
             }
-
             public string LoginProvider { get; set; }
             public string RedirectUri { get; set; }
             public string UserId { get; set; }
-
             public override void ExecuteResult(ControllerContext context)
             {
                 var properties = new AuthenticationProperties { RedirectUri = RedirectUri };

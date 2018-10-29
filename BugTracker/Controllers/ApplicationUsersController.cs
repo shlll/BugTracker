@@ -18,7 +18,6 @@ namespace BugTracker.Controllers
     {
         // GET: ApplicationUsers
         private ApplicationDbContext db = new ApplicationDbContext();
-
         // GET: ApplicationUsers
         public ActionResult Index()
         {
@@ -32,7 +31,6 @@ namespace BugTracker.Controllers
             model.Name = User.Identity.Name;
             var roles = helper.GetAllRoles();
             var userRoles = helper.GetUserRoles(id);
-
             model.Roles = new MultiSelectList(roles, "Name", "Name", userRoles);
             return View(model);
         }
@@ -52,7 +50,6 @@ namespace BugTracker.Controllers
             }
             return RedirectToAction("Index");
         }
-        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
