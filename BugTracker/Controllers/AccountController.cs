@@ -54,59 +54,37 @@ namespace BugTracker.Controllers
             }
         }
         [AllowAnonymous]
-        public ActionResult TheAdminLogIn(string id, ApplicationDbContext data, ApplicationUser users)
+        public async Task<ActionResult> TheAdminLogInAsync(ApplicationDbContext database, ApplicationUser users)
         {
-            if(id == "Admin")
-            {
-                users = data.Users.FirstOrDefault(t => t.Email == "adminator@bugtracker.com");
-            }
-            if (users != null){
-            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            SignInManager.SignIn(users, false, false);
-            }
+            users = database.Users.FirstOrDefault(t => t.Email == "adminator@bugtracker.com");
+            await SignInManager.SignInAsync(users, isPersistent: false, rememberBrowser: false);
+            return RedirectToAction("Index", "Home");
+            //var user = data.Users.Where(p => p.UserName == "adminator@bugtracker.com").FirstOrDefault();
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            //SignInManager.SignIn(user, false, false);
+            //return RedirectToAction("Index", "Home");
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> TheSubmitterLogInAsync(ApplicationDbContext database, ApplicationUser users)
+        {
+            users = database.Users.FirstOrDefault(t => t.Email == "submitter@bugtracker.com");
+            await SignInManager.SignInAsync(users, isPersistent: false, rememberBrowser: false);
             return RedirectToAction("Index", "Home");
         }
         [AllowAnonymous]
-        public ActionResult TheSubmitterLogIn(string id, ApplicationDbContext data, ApplicationUser users)
+        public async Task<ActionResult> TheDeveloperLogInAsync(ApplicationDbContext database, ApplicationUser users)
         {
-            if (id == "Submitter")
-            {
-                users = data.Users.FirstOrDefault(t => t.Email == "submitter@bugtracker.com");
-            }
-            if (users != null)
-            {
-                var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-                SignInManager.SignIn(users, false, false);
-            }
-            return RedirectToAction("Index", "Home");
+           users = database.Users.FirstOrDefault(t => t.Email == "developer@bugtracker.com");
+           await SignInManager.SignInAsync(users, isPersistent: false, rememberBrowser: false);
+           return RedirectToAction("Index", "Home");
         }
         [AllowAnonymous]
-        public ActionResult TheDeveloperLogIn(string id, ApplicationDbContext data, ApplicationUser users)
+        public async Task<ActionResult> TheProjectManagerLogInAsync(ApplicationDbContext database, ApplicationUser users)
         {
-            if (id == "Developer")
-            {
-                users = data.Users.FirstOrDefault(t => t.Email == "developer@bugtracker.com");
-            }
-            if (users != null)
-            {
-                var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-                SignInManager.SignIn(users, false, false);
-            }
-            return RedirectToAction("Index", "Home");
-        }
-        [AllowAnonymous]
-        public ActionResult TheProjectManagerLogIn(string id, ApplicationDbContext data, ApplicationUser users)
-        {
-            if (id == "Project Manager")
-            {
-                users = data.Users.FirstOrDefault(t => t.Email == "projectmanager@bugtracker.com");
-            }
-            if (users != null)
-            {
-                var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-                SignInManager.SignIn(users,  false,  false);
-            }
-            return RedirectToAction("Index", "Home");
+           users = database.Users.FirstOrDefault(t => t.Email == "projectmanager@bugtracker.com");
+           await SignInManager.SignInAsync(users, isPersistent: false, rememberBrowser: false);
+           return RedirectToAction("Index", "Home");
         }
         // GET: /Account/Login
         [AllowAnonymous]

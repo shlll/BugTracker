@@ -47,6 +47,7 @@ namespace BugTracker.Controllers
             return View(ticketModel);
         }
         // GET: TicketModels/Create
+        [Authorize(Roles = "Submitter")]
         public ActionResult Create()
         {
             ViewBag.AssignedId = new SelectList(db.Users, "Id", "Name");
@@ -62,6 +63,7 @@ namespace BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Submitter")]
         public ActionResult Create([Bind(Include = "Id,Description,Name,Created,Updated,TicketPriorityId,TicketStatusId,TicketTypeId,ProjectId,CreatingId")] TicketModel ticketModel)
         {
             if (ModelState.IsValid)
@@ -83,6 +85,7 @@ namespace BugTracker.Controllers
             return View(ticketModel);
         }
         [HttpPost]
+      
         public ActionResult CreateComment(int id, string body)
         {
             var ticketModels = db.TicketModels.Where(p => p.Id == id).FirstOrDefault();
@@ -204,18 +207,18 @@ namespace BugTracker.Controllers
                     }
                 }
                 db.TicketHistoriesModels.AddRange(changes);
-                if(ticketModel.AssignedId != null)
+                if (ticketModel.AssignedId != null)
                 {
-                var historyTickets = db.Users.Where(t => t.Id == ticketModel.AssignedId).FirstOrDefault();
-                var emailService = new PersonalEmailOfTheService();
-                var mailMessage = new MailMessage(
-                    WebConfigurationManager.AppSettings["emailto"],
-                    historyTickets.Email
-                    );
-                mailMessage.Body = "Sorry! Your tickets were changed :(";
-                mailMessage.Subject = "Changed";
-                mailMessage.IsBodyHtml = true;
-                emailService.Send(mailMessage);
+                    var historyTickets = db.Users.Where(t => t.Id == ticketModel.AssignedId).FirstOrDefault();
+                    var emailService = new PersonalEmailOfTheService();
+                    var mailMessage = new MailMessage(
+                        WebConfigurationManager.AppSettings["emailto"],
+                        historyTickets.Email
+                        );
+                    mailMessage.Body = "Sorry! Your tickets were changed :(";
+                    mailMessage.Subject = "Changed";
+                    mailMessage.IsBodyHtml = true;
+                    emailService.Send(mailMessage);
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");
