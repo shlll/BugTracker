@@ -59,10 +59,6 @@ namespace BugTracker.Controllers
             users = database.Users.FirstOrDefault(t => t.Email == "adminator@bugtracker.com");
             await SignInManager.SignInAsync(users, isPersistent: false, rememberBrowser: false);
             return RedirectToAction("Index", "Home");
-            //var user = data.Users.Where(p => p.UserName == "adminator@bugtracker.com").FirstOrDefault();
-            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            //SignInManager.SignIn(user, false, false);
-            //return RedirectToAction("Index", "Home");
         }
 
         [AllowAnonymous]
